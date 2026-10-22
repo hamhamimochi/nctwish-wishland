@@ -63,6 +63,34 @@ body {
   font-size: 12px;
   font-weight: bold;
   margin: 20px 8px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+}
+
+.category-arrow {
+  font-size: 14px;
+  margin-left: 8px;
+}
+.category-arrow {
+  font-size: 14px;
+  margin-left: 8px;
+  transition: transform 0.2s ease;
+}
+
+.channel-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.channel-group.collapsed .channel-list {
+  display: none;
+}
+
+.channel-group.collapsed .category-arrow {
+  transform: rotate(-90deg);
 }
 
 .channel {
@@ -239,6 +267,7 @@ body {
     width: 100%;
   }
 }
+
 </style>
 </head>
 <body>
@@ -252,16 +281,40 @@ body {
     <aside class="sidebar">
       <div class="server-name">WISH LAND⌄</div>
 
-      <div class="category">Confused Boy</div>
-      <div class="channel active"># 다들뭐해</div>
+      <div class="channel-group">
+  <div class="category">
+    <span>𝖶𝖨𝖲𝖧-𝖫𝖠𝖭𝖣</span>
+    <span class="category-arrow">⌄</span>
+  </div>
+  <div class="channel-list">
+    <div class="channel"># 𝖶𝖨𝖲𝖧-𝖫𝖠𝖭𝖣-사용설명서</div>
+  </div>
+</div>
 
-      <div class="category">Lover Boy</div>
-      <div class="channel"># SION♡</div>
-      <div class="channel"># RIKU♡</div>
-      <div class="channel"># YUSHI♡</div>
-      <div class="channel"># JAEHEE♡</div>
-      <div class="channel"># RYO♡</div>
-      <div class="channel"># SAKUYA♡</div>
+<div class="channel-group">
+  <div class="category">
+    <span>Confused Boy</span>
+    <span class="category-arrow">⌄</span>
+  </div>
+  <div class="channel-list">
+    <div class="channel active"># 다들뭐해</div>
+  </div>
+</div>
+
+<div class="channel-group">
+  <div class="category">
+    <span>Lover Boy</span>
+    <span class="category-arrow">⌄</span>
+  </div>
+  <div class="channel-list">
+    <div class="channel"># SION♡</div>
+    <div class="channel"># RIKU♡</div>
+    <div class="channel"># YUSHI♡</div>
+    <div class="channel"># JAEHEE♡</div>
+    <div class="channel"># RYO♡</div>
+    <div class="channel"># SAKUYA♡</div>
+  </div>
+</div>
     </aside>
 
     <main class="chat-area">
@@ -293,8 +346,8 @@ body {
     container.replaceChildren();
 
     // 找出「成員名稱＋日期時間」的標題行
-    const headerRegex =
-      /^\s*.*?\b([A-Z]+)\s+(20\d{2}年[^*\n]+).*$/gm;
+const headerRegex =
+  /^\s*.*?\b([A-Z]+)\s+(20\d{2}\/\d{1,2}\/\d{1,2}[^*\n]+).*$/gm;
 
     const headers = [...markdown.matchAll(headerRegex)];
 
@@ -458,6 +511,21 @@ menuToggle.addEventListener("click", () => {
 document.querySelectorAll(".sidebar .channel").forEach((channel) => {
   channel.addEventListener("click", () => {
     sidebar.classList.remove("open");
+  });
+});
+document.querySelectorAll(".sidebar .channel").forEach(channel => {
+  channel.addEventListener("click", () => {
+    document.querySelectorAll(".sidebar .channel").forEach(item => {
+      item.classList.remove("active");
+    });
+
+    channel.classList.add("active");
+  });
+});
+document.querySelectorAll(".channel-group .category").forEach(category => {
+  category.addEventListener("click", () => {
+    const group = category.closest(".channel-group");
+    group.classList.toggle("collapsed");
   });
 });
 </script>
