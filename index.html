@@ -347,7 +347,7 @@ body {
 
     // 找出「成員名稱＋日期時間」的標題行
 const headerRegex =
-  /^\s*.*?\b([A-Z]+)\s+(20\d{2}\/\d{1,2}\/\d{1,2}[^*\n]+).*$/gm;
+  /^\s*\*\*([A-Z]+)\s+(20\d{2}\/\d{1,2}\/\d{1,2}[^*\n]+)\*\*\s*$/gm;
 
     const headers = [...markdown.matchAll(headerRegex)];
 
