@@ -326,7 +326,7 @@ body {
       const avatarFile = avatarImages[username.toUpperCase()];
       if (avatarFile) {
         const avatarImg = document.createElement("img");
-        avatarImg.src = `./avatars/${avatarFile}`;
+        avatarImg.src = `./${avatarFile}`;
         avatarImg.alt = username;
         avatar.append(avatarImg);
       } else {
