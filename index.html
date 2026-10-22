@@ -122,6 +122,14 @@ body {
   justify-content: center;
   font-weight: bold;
   color: #fff;
+
+}
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
 }
 
 .message-content {
@@ -184,7 +192,51 @@ body {
   font-size: 14px;
   line-height: 1.5;
 }
+.menu-toggle {
+  display: none;
+}
 
+@media (max-width: 600px) {
+  .menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 22px;
+    cursor: pointer;
+    margin-right: 12px;
+  }
+
+  .app {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .sidebar.open {
+    display: flex;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 220px;
+    z-index: 10;
+    background: #2b2d31;
+    flex-direction: column;
+    align-items: stretch;
+    overflow-y: auto;
+  }
+
+  .chat-area {
+    min-width: 0;
+    width: 100%;
+  }
+}
 </style>
 </head>
 <body>
@@ -211,7 +263,10 @@ body {
     </aside>
 
     <main class="chat-area">
-      <header class="chat-header"># 다들뭐해</header>
+      <header class="chat-header">
+  <button class="menu-toggle" id="menu-toggle" aria-label="開啟選單">☰</button>
+  # 다들뭐해
+</header>
 
       <section class="chat-messages">
         <div id="markdown-messages"></div>
@@ -256,9 +311,28 @@ body {
       const message = document.createElement("div");
       message.className = "message";
 
+      
       const avatar = document.createElement("div");
       avatar.className = "avatar";
-      avatar.textContent = username.charAt(0);
+
+      const avatarImages = {
+        "SION": "sion-lover-boy.jpg",
+        "RIKU": "riku-lover-boy.jpg",
+        "YUSHI": "yushi-lover-boy.jpg",
+        "JAEHEE": "jaehee-lover-boy.jpg",
+        "RYO": "ryo-lover-boy.jpg",
+        "SAKUYA": "sakuya-lover-boy.jpg"
+      };
+      const avatarFile = avatarImages[username.toUpperCase()];
+      if (avatarFile) {
+        const avatarImg = document.createElement("img");
+        avatarImg.src = `./avatars/${avatarFile}`;
+        avatarImg.alt = username;
+        avatar.append(avatarImg);
+      } else {
+        avatar.textContent = username.charAt(0);
+      }
+
 
       const messageContent = document.createElement("div");
       messageContent.className = "message-content";
@@ -372,6 +446,18 @@ body {
   loadMarkdown().catch(error => {
     console.error(error);
   });
+const menuToggle = document.getElementById("menu-toggle");
+const sidebar = document.querySelector(".sidebar");
+
+menuToggle.addEventListener("click", () => {
+  sidebar.classList.toggle("open");
+});
+
+document.querySelectorAll(".sidebar .channel").forEach((channel) => {
+  channel.addEventListener("click", () => {
+    sidebar.classList.remove("open");
+  });
+});
 </script>
 
 </body>
